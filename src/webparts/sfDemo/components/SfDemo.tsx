@@ -10,7 +10,18 @@ import {
   Folder24Regular,
   Document24Regular,
   ClipboardTask24Regular,
-  Settings24Regular
+  Settings24Regular,
+  Alert24Regular,
+  Grid24Regular,
+  WeatherMoon24Regular,
+  MegaphoneRegular,
+  CalendarRegular,
+  AirplaneRegular,
+  DocumentRegular,
+  PeopleRegular,
+  ImageRegular,
+  ClipboardTaskRegular,
+  QuestionCircleRegular
 } from '@fluentui/react-icons';
 
 interface IMenuItem {
@@ -31,6 +42,16 @@ const menuItems: IMenuItem[] = [
   { key: 'surveys', title: 'Surveys & Feedback', icon: <ClipboardTask24Regular />, hasChildren: true },
   { key: 'admin', title: 'Administration', icon: <Settings24Regular />, hasChildren: false }
 ];
+const quickLinks = [
+  { title: 'Announcements', icon: <MegaphoneRegular />, color: '#F59E0B' },
+  { title: 'Events', icon: <CalendarRegular />, color: '#3B82F6' },
+  { title: 'Holidays', icon: <AirplaneRegular />, color: '#10B981' },
+  { title: 'Policies', icon: <DocumentRegular />, color: '#8B5CF6' },
+  { title: 'Directory', icon: <PeopleRegular />, color: '#EC4899' },
+  { title: 'Gallery', icon: <ImageRegular />, color: '#0EA5E9' },
+  { title: 'Surveys', icon: <ClipboardTaskRegular />, color: '#F97316' },
+  { title: 'FAQ', icon: <QuestionCircleRegular />, color: '#64748B' }
+];
 
 const SfDemo: React.FC<ISfDemoProps> = (props) => {
 
@@ -44,7 +65,8 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
         return (
           <>
             <div className={styles.announcementBar}>
-              📢 Q4 All-Hands Meeting: Vision 2025 – Leadership shares our roadmap
+              {/* 📢 Q4 All-Hands Meeting: Vision 2025 – Leadership shares our roadmap */}
+              Announcements | Q4 All-Hands Meeting: Vision 2025 | Leadership shares our strategic roadmap and celebrates achievements from the past quarter.
             </div>
 
             <div className={styles.pageHeader}>
@@ -66,23 +88,19 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
               </div>
             </div>
 
-            <div className={styles.quickAccess}>
-              {[
-                'Announcements',
-                'Events',
-                'Holidays',
-                'Policies',
-                'Directory',
-                'Gallery',
-                'Surveys',
-                'FAQ'
-              ].map(item => (
-                <div key={item} className={styles.quickCard}>
-                  <div className={styles.iconCircle}></div>
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
+           <div className={styles.quickAccessBar}>
+  {quickLinks.map(item => (
+    <div key={item.title} className={styles.quickItem}>
+      <div
+        className={styles.quickIcon}
+        style={{ backgroundColor: item.color + '20', color: item.color }}
+      >
+        {item.icon}
+      </div>
+      <span>{item.title}</span>
+    </div>
+  ))}
+</div>
           </>
         );
 
@@ -119,18 +137,28 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
           </div>
         </div>
 
-        <div className={styles.headerCenter}>
+        {/* <div className={styles.headerCenter}>
           <input className={styles.searchBox} placeholder="Search" />
-        </div>
+        </div> */}
+<div className={styles.headerRight}>
+  <div className={styles.iconBtn}>
+    <Alert24Regular />
+    <span className={styles.badge}>3</span>
+  </div>
 
-        <div className={styles.headerRight}>
-          <div className={styles.iconBtn}>🔔<span className={styles.badge}>3</span></div>
-          <div className={styles.iconBtn}>▦</div>
-          <div className={styles.iconBtn}>🌙</div>
-          <div className={styles.avatar}>
-            {props.userDisplayName?.charAt(0)}
-          </div>
-        </div>
+  <div className={styles.iconBtn}>
+    <Grid24Regular />
+  </div>
+
+  <div className={styles.iconBtn}>
+    <WeatherMoon24Regular />
+  </div>
+
+  <div className={styles.avatar}>
+    {props.userDisplayName?.charAt(0)}
+  </div>
+</div>
+
       </header>
 
       {/* BODY */}
