@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sf-intranet-demo-client-side-solution",
+    "id": "f9f07d1a-f2bf-420d-919b-812d9134f91c",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sf-intranet-demo description"
+      },
+      "longDescription": {
+        "default": "sf-intranet-demo description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sf-intranet-demo Feature",
+        "description": "The feature that activates elements of the sf-intranet-demo solution.",
+        "id": "45b4f7fd-ce7b-48f7-9bbf-0e7deac55ccd",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sf-intranet-demo.sppkg"
+  }
+}
