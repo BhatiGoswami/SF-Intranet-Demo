@@ -1,43 +1,173 @@
 import * as React from 'react';
 import styles from './SfDemo.module.scss';
-import type { ISfDemoProps } from './ISfDemoProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { ISfDemoProps } from './ISfDemoProps';
 
-export default class SfDemo extends React.Component<ISfDemoProps> {
-  public render(): React.ReactElement<ISfDemoProps> {
-    const {
-      description,
-      isDarkTheme,
-      environmentMessage,
-      hasTeamsContext,
-      userDisplayName
-    } = this.props;
+import {
+  Home24Regular,
+  Info24Regular,
+  Calendar24Regular,
+  People24Regular,
+  Folder24Regular,
+  Document24Regular,
+  ClipboardTask24Regular,
+  Settings24Regular
+} from '@fluentui/react-icons';
 
-    return (
-      <section className={`${styles.sfDemo} ${hasTeamsContext ? styles.teams : ''}`}>
-        <div className={styles.welcome}>
-          <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
-        </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li><a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank" rel="noreferrer">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank" rel="noreferrer">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank" rel="noreferrer">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank" rel="noreferrer">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank" rel="noreferrer">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
-          </ul>
-        </div>
-      </section>
-    );
-  }
+interface IMenuItem {
+  key: string;
+  title: string;
+  icon: JSX.Element;
+  hasChildren: boolean;
 }
+
+const menuItems: IMenuItem[] = [
+  { key: 'home', title: 'Home', icon: <Home24Regular />, hasChildren: false },
+  { key: 'about', title: 'About the Company', icon: <Info24Regular />, hasChildren: true },
+  { key: 'info', title: 'Information', icon: <Document24Regular />, hasChildren: true },
+  { key: 'events', title: 'Events & Calendar', icon: <Calendar24Regular />, hasChildren: true },
+  { key: 'people', title: 'People', icon: <People24Regular />, hasChildren: true },
+  { key: 'media', title: 'Media Center', icon: <Folder24Regular />, hasChildren: true },
+  { key: 'policies', title: 'Policies & Knowledge', icon: <Document24Regular />, hasChildren: true },
+  { key: 'surveys', title: 'Surveys & Feedback', icon: <ClipboardTask24Regular />, hasChildren: true },
+  { key: 'admin', title: 'Administration', icon: <Settings24Regular />, hasChildren: false }
+];
+
+const SfDemo: React.FC<ISfDemoProps> = (props) => {
+
+  /* SPA STATE */
+  const [activeMenu, setActiveMenu] = React.useState<string>('home');
+
+  /* Content Switcher */
+  const renderContent = () => {
+    switch (activeMenu) {
+      case 'home':
+        return (
+          <>
+            <div className={styles.announcementBar}>
+              📢 Q4 All-Hands Meeting: Vision 2025 – Leadership shares our roadmap
+            </div>
+
+            <div className={styles.pageHeader}>
+              <div>
+                <h2>Good morning, {props.userDisplayName}</h2>
+                <p>Welcome to your Food Service Dashboard</p>
+              </div>
+              <button className={styles.customizeBtn}>Customize</button>
+            </div>
+
+            <div className={styles.hero}>
+              <div className={styles.heroOverlay}>
+                <h3>Delivering Quality Food Solutions Across New Zealand</h3>
+                <p>
+                  From sourcing to delivery, we ensure freshness, consistency,
+                  and reliability for professional kitchens.
+                </p>
+                <button className={styles.primaryBtn}>Explore Products</button>
+              </div>
+            </div>
+
+            <div className={styles.quickAccess}>
+              {[
+                'Announcements',
+                'Events',
+                'Holidays',
+                'Policies',
+                'Directory',
+                'Gallery',
+                'Surveys',
+                'FAQ'
+              ].map(item => (
+                <div key={item} className={styles.quickCard}>
+                  <div className={styles.iconCircle}></div>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </>
+        );
+
+      case 'people':
+        return <h2>👥 People Directory</h2>;
+
+      case 'events':
+        return <h2>📅 Events & Calendar</h2>;
+
+      case 'media':
+        return <h2>🖼 Media Center</h2>;
+
+      case 'policies':
+        return <h2>📄 Policies & Knowledge</h2>;
+
+      case 'admin':
+        return <h2>⚙️ Administration</h2>;
+
+      default:
+        return <h2>Section Coming Soon</h2>;
+    }
+  };
+
+  return (
+    <div className={styles.appShell}>
+
+      {/* HEADER */}
+      <header className={styles.headerBar}>
+        <div className={styles.headerLeft}>
+          <span className={styles.hamburger}>☰</span>
+          <div className={styles.headerLogo}>
+            <span className={styles.logoBox}>W</span>
+            <span className={styles.logoText}>WorkNest</span>
+          </div>
+        </div>
+
+        <div className={styles.headerCenter}>
+          <input className={styles.searchBox} placeholder="Search" />
+        </div>
+
+        <div className={styles.headerRight}>
+          <div className={styles.iconBtn}>🔔<span className={styles.badge}>3</span></div>
+          <div className={styles.iconBtn}>▦</div>
+          <div className={styles.iconBtn}>🌙</div>
+          <div className={styles.avatar}>
+            {props.userDisplayName?.charAt(0)}
+          </div>
+        </div>
+      </header>
+
+      {/* BODY */}
+      <div className={styles.layout}>
+
+        {/* SIDEBAR */}
+        <aside className={styles.sideNav}>
+          <nav className={styles.menu}>
+            {menuItems.map(item => (
+              <div
+                key={item.key}
+                className={`${styles.menuItem} ${
+                  activeMenu === item.key ? styles.active : ''
+                }`}
+                onClick={() => setActiveMenu(item.key)}
+              >
+                <div className={styles.menuLeft}>
+                  <span className={styles.menuIcon}>{item.icon}</span>
+                  <span className={styles.menuText}>{item.title}</span>
+                </div>
+
+                {item.hasChildren && (
+                  <span className={styles.chevron}>›</span>
+                )}
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        {/* CONTENT */}
+        <main className={styles.content}>
+          {renderContent()}
+        </main>
+
+      </div>
+    </div>
+  );
+};
+
+export default SfDemo;
