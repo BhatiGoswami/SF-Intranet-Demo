@@ -15,38 +15,82 @@ import {
   Grid24Regular,
   WeatherMoon24Regular,
   MegaphoneRegular,
-  CalendarRegular,
   AirplaneRegular,
-  DocumentRegular,
   PeopleRegular,
   ImageRegular,
   ClipboardTaskRegular,
   QuestionCircleRegular
 } from '@fluentui/react-icons';
 
+/* ---------- TYPES ---------- */
+interface ISubMenuItem {
+  key: string;
+  title: string;
+}
+
 interface IMenuItem {
   key: string;
   title: string;
   icon: JSX.Element;
-  hasChildren: boolean;
+  children?: ISubMenuItem[];
 }
 
+/* ---------- MENU DATA ---------- */
 const menuItems: IMenuItem[] = [
-  { key: 'home', title: 'Home', icon: <Home24Regular />, hasChildren: false },
-  { key: 'about', title: 'About the Company', icon: <Info24Regular />, hasChildren: true },
-  { key: 'info', title: 'Information', icon: <Document24Regular />, hasChildren: true },
-  { key: 'events', title: 'Events & Calendar', icon: <Calendar24Regular />, hasChildren: true },
-  { key: 'people', title: 'People', icon: <People24Regular />, hasChildren: true },
-  { key: 'media', title: 'Media Center', icon: <Folder24Regular />, hasChildren: true },
-  { key: 'policies', title: 'Policies & Knowledge', icon: <Document24Regular />, hasChildren: true },
-  { key: 'surveys', title: 'Surveys & Feedback', icon: <ClipboardTask24Regular />, hasChildren: true },
-  { key: 'admin', title: 'Administration', icon: <Settings24Regular />, hasChildren: false }
+  { key: 'home', title: 'Home', icon: <Home24Regular /> },
+  {
+    key: 'about',
+    title: 'About the Company',
+    icon: <Info24Regular />,
+    children: [
+      { key: 'companyOverview', title: 'Company Overview' },
+      { key: 'ourJourney', title: 'Our Journey' },
+      { key: 'leadership', title: 'Leadership Messages' },
+      { key: 'notices', title: 'Notices & Circulars' },
+      { key: 'news', title: 'News Archive' }
+    ]
+  },
+  { key: 'info', title: 'Information', icon: <Document24Regular /> },
+  {
+    key: 'events',
+    title: 'Events & Calendar',
+    icon: <Calendar24Regular />,
+    children: [
+      { key: 'masterCalendar', title: 'Master Calendar' },
+      { key: 'holidays', title: 'Holiday Calendar' }
+    ]
+  },
+  {
+    key: 'people',
+    title: 'People',
+    icon: <People24Regular />
+  },
+  {
+    key: 'media',
+    title: 'Media Center',
+    icon: <Folder24Regular />,
+    children: [
+      { key: 'photoGallery', title: 'Photo Gallery' },
+      { key: 'videoLibrary', title: 'Video Library' }],
+  },
+  {
+    key: 'policies',
+    title: 'Policies & Knowledge',
+    icon: <Document24Regular />
+  },
+  { key: 'surveys', title: 'Surveys & Feedback', icon: <ClipboardTask24Regular /> },
+  {
+    key: 'admin',
+    title: 'Administration',
+    icon: <Settings24Regular />
+  }
 ];
+
 const quickLinks = [
   { title: 'Announcements', icon: <MegaphoneRegular />, color: '#F59E0B' },
-  { title: 'Events', icon: <CalendarRegular />, color: '#3B82F6' },
+  { title: 'Events', icon: <Calendar24Regular />, color: '#3B82F6' },
   { title: 'Holidays', icon: <AirplaneRegular />, color: '#10B981' },
-  { title: 'Policies', icon: <DocumentRegular />, color: '#8B5CF6' },
+  { title: 'Policies', icon: <Document24Regular />, color: '#8B5CF6' },
   { title: 'Directory', icon: <PeopleRegular />, color: '#EC4899' },
   { title: 'Gallery', icon: <ImageRegular />, color: '#0EA5E9' },
   { title: 'Surveys', icon: <ClipboardTaskRegular />, color: '#F97316' },
@@ -55,17 +99,17 @@ const quickLinks = [
 
 const SfDemo: React.FC<ISfDemoProps> = (props) => {
 
-  /* SPA STATE */
+  /* ---------- STATE ---------- */
   const [activeMenu, setActiveMenu] = React.useState<string>('home');
+  const [expandedMenu, setExpandedMenu] = React.useState<string | null>(null);
 
-  /* Content Switcher */
+  /* ---------- CONTENT ---------- */
   const renderContent = () => {
     switch (activeMenu) {
       case 'home':
         return (
           <>
             <div className={styles.announcementBar}>
-              {/* 📢 Q4 All-Hands Meeting: Vision 2025 – Leadership shares our roadmap */}
               Announcements | Q4Business Update – New product ranges launched and delivery coverage expanded across regions.
             </div>
 
@@ -88,27 +132,45 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
               </div>
             </div>
 
-           <div className={styles.quickAccessBar}>
-  {quickLinks.map(item => (
-    <div key={item.title} className={styles.quickItem}>
-      <div
-        className={styles.quickIcon}
-        style={{ backgroundColor: item.color + '20', color: item.color }}
-      >
-        {item.icon}
-      </div>
-      <span>{item.title}</span>
-    </div>
-  ))}
-</div>
+            <div className={styles.quickAccessBar}>
+              {quickLinks.map(item => (
+                <div key={item.title} className={styles.quickItem}>
+                  <div
+                    className={styles.quickIcon}
+                    style={{ backgroundColor: item.color + '20', color: item.color }}
+                  >
+                    {item.icon}
+                  </div>
+                  <span>{item.title}</span>
+                </div>
+              ))}
+            </div>
           </>
         );
 
+      case 'companyOverview':
+        return <h2>🏢 Company Overview</h2>;
+
+      case 'ourJourney':
+        return <h2>🚀 Our Journey</h2>;
+
+      case 'leadership':
+        return <h2>👔 Leadership Messages</h2>;
+
+      case 'notices':
+        return <h2>📢 Notices & Circulars</h2>;
+
+      case 'news':
+        return <h2>📰 News Archive</h2>;
+
+      case 'masterCalendar':
+        return <h2>📅 Master Calendar</h2>;
+
+      case 'holidays':
+        return <h2>🏖 Holiday List</h2>;
+
       case 'people':
         return <h2>👥 People Directory</h2>;
-
-      case 'events':
-        return <h2>📅 Events & Calendar</h2>;
 
       case 'media':
         return <h2>🖼 Media Center</h2>;
@@ -120,14 +182,14 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
         return <h2>⚙️ Administration</h2>;
 
       default:
-        return <h2>Section Coming Soon</h2>;
+        return null;
     }
   };
 
   return (
     <div className={styles.appShell}>
 
-      {/* HEADER */}
+      {/* ---------- HEADER ---------- */}
       <header className={styles.headerBar}>
         <div className={styles.headerLeft}>
           <span className={styles.hamburger}>☰</span>
@@ -137,58 +199,76 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
           </div>
         </div>
 
-        {/* <div className={styles.headerCenter}>
-          <input className={styles.searchBox} placeholder="Search" />
-        </div> */}
-<div className={styles.headerRight}>
-  <div className={styles.iconBtn}>
-    <Alert24Regular />
-    <span className={styles.badge}>3</span>
-  </div>
-
-  <div className={styles.iconBtn}>
-    <Grid24Regular />
-  </div>
-
-  <div className={styles.iconBtn}>
-    <WeatherMoon24Regular />
-  </div>
-
-  <div className={styles.avatar}>
-    {props.userDisplayName?.charAt(0)}
-  </div>
-</div>
+        <div className={styles.headerRight}>
+          <div className={styles.iconBtn}>
+            <Alert24Regular />
+            <span className={styles.badge}>3</span>
+          </div>
+          <div className={styles.iconBtn}><Grid24Regular /></div>
+          <div className={styles.iconBtn}><WeatherMoon24Regular /></div>
+          <div className={styles.avatar}>
+            {props.userDisplayName?.charAt(0)}
+          </div>
+        </div>
 
       </header>
 
-      {/* BODY */}
+      {/* ---------- BODY ---------- */}
       <div className={styles.layout}>
 
-        {/* SIDEBAR */}
+        {/* ---------- SIDEBAR ---------- */}
         <aside className={styles.sideNav}>
           <nav className={styles.menu}>
-            {menuItems.map(item => (
-              <div
-                key={item.key}
-                className={`${styles.menuItem} ${
-                  activeMenu === item.key ? styles.active : ''
-                }`}
-                onClick={() => setActiveMenu(item.key)}
-              >
-                <div className={styles.menuLeft}>
-                  <span className={styles.menuIcon}>{item.icon}</span>
-                  <span className={styles.menuText}>{item.title}</span>
-                </div>
+            {menuItems.map(item => {
+              const isExpanded = expandedMenu === item.key;
 
-                {item.hasChildren && (
-                  <span className={styles.chevron}>›</span>
-                )}
-              </div>
-            ))}
+              return (
+                <div key={item.key}>
+                  <div
+                    className={`${styles.menuItem} ${activeMenu === item.key ? styles.active : ''
+                      }`}
+                    onClick={() => {
+                      if (item.children) {
+                        setExpandedMenu(isExpanded ? null : item.key);
+                      } else {
+                        setActiveMenu(item.key);
+                        setExpandedMenu(null);
+                      }
+                    }}
+                  >
+                    <div className={styles.menuLeft}>
+                      <span className={styles.menuIcon}>{item.icon}</span>
+                      <span className={styles.menuText}>{item.title}</span>
+                    </div>
+
+                    {item.children && (
+                      <span className={`${styles.chevron} ${isExpanded ? styles.rotate : ''}`}>
+                        ›
+                      </span>
+                    )}
+                  </div>
+
+                  {item.children && isExpanded && (
+                    <div className={styles.subMenu}>
+                      {item.children.map(sub => (
+                        <div
+                          key={sub.key}
+                          className={`${styles.subMenuItem} ${activeMenu === sub.key ? styles.activeSub : ''
+                            }`}
+                          onClick={() => setActiveMenu(sub.key)}
+                        >
+                          {sub.title}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </nav>
         </aside>
 
-        {/* CONTENT */}
+        {/* ---------- CONTENT ---------- */}
         <main className={styles.content}>
           {renderContent()}
         </main>
@@ -196,64 +276,64 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
       </div>
 
       {/* FOOTER */}
-<footer className={styles.footer}>
-  <div className={styles.footerInner}>
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
 
-    {/* Brand */}
-    <div className={styles.footerCol}>
-      <div className={styles.footerBrand}>
-        <span className={styles.footerLogo}>SF</span>
-        <h4>Service Foods</h4>
-      </div>
-      <p>
-        Your corporate intranet portal for seamless communication
-        and collaboration.
-      </p>
+          {/* Brand */}
+          <div className={styles.footerCol}>
+            <div className={styles.footerBrand}>
+              <span className={styles.footerLogo}>SF</span>
+              <h4>Service Foods</h4>
+            </div>
+            <p>
+              Your corporate intranet portal for seamless communication
+              and collaboration.
+            </p>
 
-      <div className={styles.socialIcons}>
-        <span>f</span>
-        <span>𝕏</span>
-        <span>in</span>
-        <span>◎</span>
-      </div>
-    </div>
+            <div className={styles.socialIcons}>
+              <span>f</span>
+              <span>𝕏</span>
+              <span>in</span>
+              <span>◎</span>
+            </div>
+          </div>
 
-    {/* Quick Links */}
-    <div className={styles.footerCol}>
-      <h5>Quick Links</h5>
-      <ul>
-        <li>About Us</li>
-        <li>News & Updates</li>
-        <li>Events</li>
-        <li>Employee Directory</li>
-        <li>Policies</li>
-      </ul>
-    </div>
+          {/* Quick Links */}
+          <div className={styles.footerCol}>
+            <h5>Quick Links</h5>
+            <ul>
+              <li>About Us</li>
+              <li>News & Updates</li>
+              <li>Events</li>
+              <li>Employee Directory</li>
+              <li>Policies</li>
+            </ul>
+          </div>
 
-    {/* Resources */}
-    <div className={styles.footerCol}>
-      <h5>Resources</h5>
-      <ul>
-        <li>FAQs</li>
-        <li>Knowledge Base</li>
-        <li>Submit Feedback</li>
-        <li>Quick Links</li>
-        <li>Video Library</li>
-      </ul>
-    </div>
+          {/* Resources */}
+          <div className={styles.footerCol}>
+            <h5>Resources</h5>
+            <ul>
+              <li>FAQs</li>
+              <li>Knowledge Base</li>
+              <li>Submit Feedback</li>
+              <li>Quick Links</li>
+              <li>Video Library</li>
+            </ul>
+          </div>
 
-    {/* Contact */}
-    <div className={styles.footerCol}>
-      <h5>Contact</h5>
-      <ul className={styles.contactList}>
-        <li>📍 123 Business Avenue<br />New York, NY 10001</li>
-        <li>📞 +1 (555) 123-4567</li>
-        <li>✉ info@samplework.com</li>
-      </ul>
-    </div>
+          {/* Contact */}
+          <div className={styles.footerCol}>
+            <h5>Contact</h5>
+            <ul className={styles.contactList}>
+              <li>📍 123 Business Avenue<br />New York, NY 10001</li>
+              <li>📞 +1 (555) 123-4567</li>
+              <li>✉ info@samplework.com</li>
+            </ul>
+          </div>
 
-  </div>
-</footer>
+        </div>
+      </footer>
 
     </div>
   );
