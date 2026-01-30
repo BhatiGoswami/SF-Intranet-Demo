@@ -182,7 +182,7 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
         return <h2>⚙️ Administration</h2>;
 
       default:
-        return null;
+        return null; 
     }
   };
 
