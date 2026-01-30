@@ -66,7 +66,7 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
           <>
             <div className={styles.announcementBar}>
               {/* 📢 Q4 All-Hands Meeting: Vision 2025 – Leadership shares our roadmap */}
-              Announcements | Q4 All-Hands Meeting: Vision 2025 | Leadership shares our strategic roadmap and celebrates achievements from the past quarter.
+              Announcements | Q4Business Update – New product ranges launched and delivery coverage expanded across regions.
             </div>
 
             <div className={styles.pageHeader}>
@@ -132,8 +132,8 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
         <div className={styles.headerLeft}>
           <span className={styles.hamburger}>☰</span>
           <div className={styles.headerLogo}>
-            <span className={styles.logoBox}>W</span>
-            <span className={styles.logoText}>WorkNest</span>
+            <span className={styles.logoBox}>SF</span>
+            <span className={styles.logoText}>Service Foods</span>
           </div>
         </div>
 
@@ -194,6 +194,67 @@ const SfDemo: React.FC<ISfDemoProps> = (props) => {
         </main>
 
       </div>
+
+      {/* FOOTER */}
+<footer className={styles.footer}>
+  <div className={styles.footerInner}>
+
+    {/* Brand */}
+    <div className={styles.footerCol}>
+      <div className={styles.footerBrand}>
+        <span className={styles.footerLogo}>SF</span>
+        <h4>Service Foods</h4>
+      </div>
+      <p>
+        Your corporate intranet portal for seamless communication
+        and collaboration.
+      </p>
+
+      <div className={styles.socialIcons}>
+        <span>f</span>
+        <span>𝕏</span>
+        <span>in</span>
+        <span>◎</span>
+      </div>
+    </div>
+
+    {/* Quick Links */}
+    <div className={styles.footerCol}>
+      <h5>Quick Links</h5>
+      <ul>
+        <li>About Us</li>
+        <li>News & Updates</li>
+        <li>Events</li>
+        <li>Employee Directory</li>
+        <li>Policies</li>
+      </ul>
+    </div>
+
+    {/* Resources */}
+    <div className={styles.footerCol}>
+      <h5>Resources</h5>
+      <ul>
+        <li>FAQs</li>
+        <li>Knowledge Base</li>
+        <li>Submit Feedback</li>
+        <li>Quick Links</li>
+        <li>Video Library</li>
+      </ul>
+    </div>
+
+    {/* Contact */}
+    <div className={styles.footerCol}>
+      <h5>Contact</h5>
+      <ul className={styles.contactList}>
+        <li>📍 123 Business Avenue<br />New York, NY 10001</li>
+        <li>📞 +1 (555) 123-4567</li>
+        <li>✉ info@samplework.com</li>
+      </ul>
+    </div>
+
+  </div>
+</footer>
+
     </div>
   );
 };
